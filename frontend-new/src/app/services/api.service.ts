@@ -40,6 +40,7 @@ export interface Product {
   stockQuantity: number;
   minStockLevel: number;
   maxStockLevel: number;
+  status: string;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -54,12 +55,15 @@ export interface Order {
   totalAmount: number;
   status: string;
   paymentMethod: string;
+  paymentStatus: string;
   notes: string;
   orderDate: string;
   createdAt: string;
   updatedAt: string;
   customer?: any;
-  orderItems?: any[];
+  customerName?: string;
+  customerEmail?: string;
+  items?: any[];
 }
 
 export interface Customer {
@@ -71,9 +75,13 @@ export interface Customer {
   address: string;
   city: string;
   state: string;
+  country: string;
   zipCode: string;
   company: string;
+  status: string;
   isActive: boolean;
+  totalOrders?: number;
+  totalSpent?: number;
   createdAt: string;
   updatedAt: string;
 }

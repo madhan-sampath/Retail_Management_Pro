@@ -1,0 +1,264 @@
+<div class="fade-in">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1 text-gradient">Orders</h1>
+      <p class="text-muted mb-0">Manage customer orders and track order status.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" (click)="exportOrders()">
+        <span class="material-symbols-outlined me-2">download</span>Export
+      </button>
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <span class="material-symbols-outlined me-2">add</span>New Order
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Search Orders</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <span class="material-symbols-outlined">search</span>
+            </span>
+            <input type="text" class="form-control" placeholder="Search by order number, customer..."
+                   [(ngModel)]="searchQuery" (input)="searchOrders()">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Status</label>
+          <select class="form-select" [(ngModel)]="selectedStatus" (change)="filterOrders()">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Payment Method</label>
+          <select class="form-select" [(ngModel)]="selectedPaymentMethod" (change)="filterOrders()">
+            <option value="">All Methods</option>
+            <option value="credit_card">Credit Card</option>
+            <option value="debit_card">Debit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank_transfer">Bank Transfer</option>
+            <option value="cash">Cash</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Date Range</label>
+          <select class="form-select" [(ngModel)]="selectedDateRange" (change)="filterOrders()">
+            <option value="">All Time</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="quarter">This Quarter</option>
+            <option value="year">This Year</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Sort By</label>
+          <select class="form-select" [(ngModel)]="sortBy" (change)="sortOrders()">
+            <option value="orderDate">Order Date</option>
+            <option value="totalAmount">Total Amount</option>
+            <option value="status">Status</option>
+            <option value="customerName">Customer Name</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">Orders ({{ filteredOrders.length }})</h5>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-primary btn-sm" (click)="refreshOrders()">
+          <span class="material-symbols-outlined">refresh</span>
+        </button>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Loading orders...</p>
+      </div>
+
+      <!-- Orders Table -->
+      <div *ngIf="!loading" class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Order #</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Payment</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of filteredOrders">
+              <td>
+                <div class="fw-bold">#{{ order.orderNumber }}</div>
+                <small class="text-muted">{{ order.id }}</small>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="avatar bg-primary text-white me-2">
+                    {{ order.customerName.charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <div class="fw-bold">{{ order.customerName }}</div>
+                    <small class="text-muted">{{ order.customerEmail }}</small>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="fw-bold">{{ order.items.length }} items</div>
+                <small class="text-muted">{{ order.items.reduce((sum, item) => sum + item.quantity, 0) }} total</small>
+              </td>
+              <td>
+                <div class="fw-bold">\${{ this.formatNumber(order.totalAmount) }}</div>
+                <small class="text-muted">{{ order.paymentStatus }}</small>
+              </td>
+              <td>
+                <span class="badge" [class]="'bg-' + (order.status === 'delivered' ? 'success' : order.status === 'shipped' ? 'info' : order.status === 'processing' ? 'warning' : order.status === 'cancelled' ? 'danger' : 'secondary')">
+                  {{ this.formatTitleCase(order.status) }}
+                </span>
+              </td>
+              <td>
+                <span class="badge bg-secondary">{{ this.formatTitleCase(order.paymentMethod) }}</span>
+              </td>
+              <td>
+                <div>{{ this.formatDate(order.orderDate, 'short') }}</div>
+                <small class="text-muted">{{ this.formatDate(order.orderDate, 'medium') }}</small>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-action btn-view" (click)="viewOrder(order)" title="View Order">
+                    <span class="material-symbols-outlined">visibility</span>
+                  </button>
+                  <button class="btn btn-action btn-edit" (click)="editOrder(order)" title="Edit Order">
+                    <span class="material-symbols-outlined">edit</span>
+                  </button>
+                  <div class="dropdown">
+                    <button class="btn btn-action btn-more dropdown-toggle" data-bs-toggle="dropdown" title="More Actions" aria-expanded="false">
+                      <span class="material-symbols-outlined">more_vert</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="#" (click)="updateOrderStatus(order, 'processing')">
+                        <span class="material-symbols-outlined me-2">play_arrow</span>Mark as Processing
+                      </a></li>
+                      <li><a class="dropdown-item" href="#" (click)="updateOrderStatus(order, 'shipped')">
+                        <span class="material-symbols-outlined me-2">local_shipping</span>Mark as Shipped
+                      </a></li>
+                      <li><a class="dropdown-item" href="#" (click)="updateOrderStatus(order, 'delivered')">
+                        <span class="material-symbols-outlined me-2">check_circle</span>Mark as Delivered
+                      </a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item text-danger" href="#" (click)="cancelOrder(order)">
+                        <span class="material-symbols-outlined me-2">cancel</span>Cancel Order
+                      </a></li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && filteredOrders.length === 0" class="text-center py-5">
+        <span class="material-symbols-outlined text-muted mb-3" style="font-size: 3rem;">shopping_cart</span>
+        <h5 class="text-muted">No orders found</h5>
+        <p class="text-muted">Try adjusting your search criteria or create a new order.</p>
+        <button class="btn btn-primary" (click)="openAddModal()">
+          <span class="material-symbols-outlined me-2">add</span>New Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Modal -->
+  <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalTitle }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label">Customer *</label>
+                <select class="form-select" [(ngModel)]="orderForm.customerId" 
+                        name="customerId" required [disabled]="!isEditMode && modalTitle === 'Order Details'">
+                  <option value="">Select Customer</option>
+                  <option *ngFor="let customer of customers" [value]="customer.id">
+                    {{ customer.firstName }} {{ customer.lastName }} - {{ customer.email }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Status</label>
+                <select class="form-select" [(ngModel)]="orderForm.status" 
+                        name="status" [disabled]="!isEditMode && modalTitle === 'Order Details'">
+                  <option value="pending">Pending</option>
+                  <option value="processing">Processing</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Payment Method</label>
+                <select class="form-select" [(ngModel)]="orderForm.paymentMethod" 
+                        name="paymentMethod" [disabled]="!isEditMode && modalTitle === 'Order Details'">
+                  <option value="credit_card">Credit Card</option>
+                  <option value="debit_card">Debit Card</option>
+                  <option value="paypal">PayPal</option>
+                  <option value="bank_transfer">Bank Transfer</option>
+                  <option value="cash">Cash</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Shipping Address</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="orderForm.shippingAddress" 
+                          name="shippingAddress" [disabled]="!isEditMode && modalTitle === 'Order Details'"></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Notes</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="orderForm.notes" 
+                          name="notes" [disabled]="!isEditMode && modalTitle === 'Order Details'"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" (click)="closeModal()">Close</button>
+          <button *ngIf="isEditMode" type="button" class="btn btn-primary" (click)="saveOrder()">
+            <span class="material-symbols-outlined me-2">save</span>Save Changes
+          </button>
+          <button *ngIf="!isEditMode && modalTitle !== 'Order Details'" type="button" class="btn btn-primary" (click)="saveOrder()">
+            <span class="material-symbols-outlined me-2">add</span>Create Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

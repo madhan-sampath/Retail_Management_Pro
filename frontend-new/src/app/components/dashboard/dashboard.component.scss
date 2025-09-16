@@ -1,0 +1,88 @@
+.card-title {
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.table th {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  font-size: 0.8rem;
+}
+
+.badge {
+  font-size: 0.65rem;
+  padding: 3px 6px;
+}
+
+.fw-bold {
+  font-size: 0.85rem;
+}
+
+.text-muted {
+  font-size: 0.75rem;
+}
+
+.card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.card-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  color: #6366f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .card-value {
+    font-size: 1.25rem;
+  }
+  
+  .card-label {
+    font-size: 0.7rem;
+  }
+  
+  .card-icon {
+    font-size: 1.25rem;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-value {
+    font-size: 1.1rem;
+  }
+  
+  .card-label {
+    font-size: 0.65rem;
+  }
+  
+  .card-icon {
+    font-size: 1.1rem;
+    width: 36px;
+    height: 36px;
+  }
+}

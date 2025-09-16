@@ -1,0 +1,240 @@
+<div class="fade-in">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1 text-gradient">Reports</h1>
+      <p class="text-muted mb-0">Analyze your business performance with detailed reports and analytics.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" (click)="exportReport()">
+        <span class="material-symbols-outlined me-2">download</span>Export
+      </button>
+      <button class="btn btn-primary" (click)="generateReport()">
+        <span class="material-symbols-outlined me-2">refresh</span>Generate Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Date Range and Filters -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Report Type</label>
+          <select class="form-select" [(ngModel)]="selectedReportType" (change)="loadReport()">
+            <option value="sales">Sales Report</option>
+            <option value="inventory">Inventory Report</option>
+            <option value="customers">Customer Report</option>
+            <option value="revenue">Revenue Report</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Date From</label>
+          <input type="date" class="form-control" [(ngModel)]="dateFrom" (change)="loadReport()">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Date To</label>
+          <input type="date" class="form-control" [(ngModel)]="dateTo" (change)="loadReport()">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Quick Range</label>
+          <select class="form-select" [(ngModel)]="quickRange" (change)="setQuickRange()">
+            <option value="">Custom Range</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="quarter">This Quarter</option>
+            <option value="year">This Year</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Content -->
+  <div class="row g-4">
+    <!-- Sales Report -->
+    <div *ngIf="selectedReportType === 'sales'" class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Sales Report</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Generating sales report...</p>
+          </div>
+          <div *ngIf="!loading" class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Date</th>
+                  <th>Orders</th>
+                  <th>Revenue</th>
+                  <th>Average Order Value</th>
+                  <th>Growth</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of salesReport">
+                  <td>{{ this.formatDate(item.date) }}</td>
+                  <td>{{ this.formatNumber(item.orders) }}</td>
+                  <td>\${{ this.formatNumber(item.revenue) }}</td>
+                  <td>\${{ this.formatNumber(item.averageOrderValue) }}</td>
+                  <td>
+                    <span class="badge" [class]="item.growth >= 0 ? 'bg-success' : 'bg-danger'">
+                      {{ item.growth >= 0 ? '+' : '' }}{{ item.growth }}%
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory Report -->
+    <div *ngIf="selectedReportType === 'inventory'" class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Inventory Report</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Generating inventory report...</p>
+          </div>
+          <div *ngIf="!loading" class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Product</th>
+                  <th>SKU</th>
+                  <th>Current Stock</th>
+                  <th>Min Stock Level</th>
+                  <th>Status</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of inventoryReport">
+                  <td>{{ item.name }}</td>
+                  <td><code>{{ item.sku }}</code></td>
+                  <td>{{ this.formatNumber(item.currentStock) }}</td>
+                  <td>{{ this.formatNumber(item.minStockLevel) }}</td>
+                  <td>
+                    <span class="badge" [class]="item.status === 'in-stock' ? 'bg-success' : item.status === 'low-stock' ? 'bg-warning' : 'bg-danger'">
+                      {{ this.formatTitleCase(item.status) }}
+                    </span>
+                  </td>
+                  <td>\${{ this.formatNumber(item.value) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customer Report -->
+    <div *ngIf="selectedReportType === 'customers'" class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Customer Report</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Generating customer report...</p>
+          </div>
+          <div *ngIf="!loading" class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Orders</th>
+                  <th>Total Spent</th>
+                  <th>Last Order</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of customerReport">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.email }}</td>
+                  <td>{{ this.formatNumber(item.orders) }}</td>
+                  <td>\${{ this.formatNumber(item.totalSpent) }}</td>
+                  <td>{{ this.formatDate(item.lastOrder) }}</td>
+                  <td>
+                    <span class="badge" [class]="'bg-' + (item.status === 'active' ? 'success' : item.status === 'inactive' ? 'warning' : 'danger')">
+                      {{ this.formatTitleCase(item.status) }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue Report -->
+    <div *ngIf="selectedReportType === 'revenue'" class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Revenue Report</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Generating revenue report...</p>
+          </div>
+          <div *ngIf="!loading" class="row g-4">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h3 class="text-primary">\${{ this.formatNumber(revenueReport.totalRevenue) }}</h3>
+                  <p class="text-muted mb-0">Total Revenue</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h3 class="text-success">{{ this.formatNumber(revenueReport.totalOrders) }}</h3>
+                  <p class="text-muted mb-0">Total Orders</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h3 class="text-info">\${{ this.formatNumber(revenueReport.averageOrderValue) }}</h3>
+                  <p class="text-muted mb-0">Average Order Value</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h3 class="text-warning">{{ revenueReport.growth }}%</h3>
+                  <p class="text-muted mb-0">Growth Rate</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

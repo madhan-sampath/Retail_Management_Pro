@@ -1,0 +1,81 @@
+.card-title {
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.table th {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  font-size: 0.8rem;
+}
+
+.badge {
+  font-size: 0.65rem;
+  padding: 3px 6px;
+}
+
+.h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.small {
+  font-size: 0.75rem;
+}
+
+.text-muted {
+  font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 0.7rem;
+    padding: 0.5rem;
+  }
+  
+  .badge {
+    font-size: 0.6rem;
+    padding: 2px 4px;
+  }
+  
+  .h3 {
+    font-size: 1.25rem;
+  }
+  
+  .h4 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .table th,
+  .table td {
+    font-size: 0.65rem;
+    padding: 0.4rem;
+  }
+  
+  .badge {
+    font-size: 0.55rem;
+    padding: 1px 3px;
+  }
+  
+  .h3 {
+    font-size: 1.1rem;
+  }
+  
+  .h4 {
+    font-size: 1rem;
+  }
+}

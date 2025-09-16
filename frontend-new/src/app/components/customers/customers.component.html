@@ -1,0 +1,295 @@
+<div class="fade-in">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1 text-gradient">Customers</h1>
+      <p class="text-muted mb-0">Manage your customer database and relationships.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" (click)="exportCustomers()">
+        <span class="material-symbols-outlined me-2">download</span>Export
+      </button>
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <span class="material-symbols-outlined me-2">add</span>New Customer
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Search Customers</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <span class="material-symbols-outlined">search</span>
+            </span>
+            <input type="text" class="form-control" placeholder="Search by name, email, phone..."
+                   [(ngModel)]="searchQuery" (input)="searchCustomers()">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Status</label>
+          <select class="form-select" [(ngModel)]="selectedStatus" (change)="filterCustomers()">
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="blocked">Blocked</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">City</label>
+          <select class="form-select" [(ngModel)]="selectedCity" (change)="filterCustomers()">
+            <option value="">All Cities</option>
+            <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Sort By</label>
+          <select class="form-select" [(ngModel)]="sortBy" (change)="sortCustomers()">
+            <option value="firstName">First Name</option>
+            <option value="lastName">Last Name</option>
+            <option value="email">Email</option>
+            <option value="createdAt">Date Added</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">View Mode</label>
+          <div class="btn-group w-100" role="group">
+            <button type="button" class="btn btn-outline-primary" 
+                    [class.active]="viewMode === 'table'" (click)="setViewMode('table')">
+              <span class="material-symbols-outlined">table_rows</span>
+            </button>
+            <button type="button" class="btn btn-outline-primary" 
+                    [class.active]="viewMode === 'grid'" (click)="setViewMode('grid')">
+              <span class="material-symbols-outlined">grid_view</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customers Table/Grid -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">Customers ({{ filteredCustomers.length }})</h5>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-primary btn-sm" (click)="refreshCustomers()">
+          <span class="material-symbols-outlined">refresh</span>
+        </button>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Loading customers...</p>
+      </div>
+
+      <!-- Table View -->
+      <div *ngIf="!loading && viewMode === 'table'" class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Customer</th>
+              <th>Contact</th>
+              <th>Location</th>
+              <th>Orders</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let customer of filteredCustomers">
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="avatar bg-primary text-white me-3">
+                    {{ customer.firstName.charAt(0).toUpperCase() }}{{ customer.lastName.charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <div class="fw-bold">{{ customer.firstName }} {{ customer.lastName }}</div>
+                    <small class="text-muted">ID: {{ customer.id }}</small>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="fw-bold">{{ customer.email }}</div>
+                <small class="text-muted">{{ customer.phone || 'No phone' }}</small>
+              </td>
+              <td>
+                <div class="fw-bold">{{ customer.city }}, {{ customer.state }}</div>
+                <small class="text-muted">{{ customer.country }}</small>
+              </td>
+              <td>
+                <div class="fw-bold">{{ customer.totalOrders || 0 }}</div>
+                <small class="text-muted">\${{ this.formatNumber(customer.totalSpent || 0) }}</small>
+              </td>
+              <td>
+                <span class="badge" [class]="'bg-' + (customer.status === 'active' ? 'success' : customer.status === 'inactive' ? 'warning' : 'danger')">
+                  {{ this.formatTitleCase(customer.status) }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-action btn-edit" (click)="editCustomer(customer)" title="Edit Customer">
+                    <span class="material-symbols-outlined">edit</span>
+                  </button>
+                  <button class="btn btn-action btn-view" (click)="viewCustomer(customer)" title="View Details">
+                    <span class="material-symbols-outlined">visibility</span>
+                  </button>
+                  <button class="btn btn-action btn-delete" (click)="deleteCustomer(customer)" title="Delete Customer">
+                    <span class="material-symbols-outlined">delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Grid View -->
+      <div *ngIf="!loading && viewMode === 'grid'" class="row p-3">
+        <div class="col-xl-3 col-lg-4 col-md-6 mb-4" *ngFor="let customer of filteredCustomers">
+          <div class="card h-100 customer-card">
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="btn btn-action btn-edit" (click)="editCustomer(customer)" title="Edit Customer">
+                <span class="material-symbols-outlined">edit</span>
+              </button>
+              <button class="btn btn-action btn-view" (click)="viewCustomer(customer)" title="View Details">
+                <span class="material-symbols-outlined">visibility</span>
+              </button>
+              <button class="btn btn-action btn-delete" (click)="deleteCustomer(customer)" title="Delete Customer">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+            
+            <div class="card-body text-center">
+              <div class="avatar bg-primary text-white mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                {{ customer.firstName.charAt(0).toUpperCase() }}{{ customer.lastName.charAt(0).toUpperCase() }}
+              </div>
+              <h6 class="card-title">{{ customer.firstName }} {{ customer.lastName }}</h6>
+              <p class="text-muted small">{{ customer.email }}</p>
+              <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Phone:</span>
+                  <span>{{ customer.phone || 'N/A' }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Location:</span>
+                  <span>{{ customer.city }}, {{ customer.state }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Orders:</span>
+                  <span>{{ customer.totalOrders || 0 }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Total Spent:</span>
+                  <span>\${{ this.formatNumber(customer.totalSpent || 0) }}</span>
+                </div>
+              </div>
+              <span class="badge" [class]="'bg-' + (customer.status === 'active' ? 'success' : customer.status === 'inactive' ? 'warning' : 'danger')">
+                {{ this.formatTitleCase(customer.status) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && filteredCustomers.length === 0" class="text-center py-5">
+        <span class="material-symbols-outlined text-muted mb-3" style="font-size: 3rem;">people</span>
+        <h5 class="text-muted">No customers found</h5>
+        <p class="text-muted">Try adjusting your search criteria or create a new customer.</p>
+        <button class="btn btn-primary" (click)="openAddModal()">
+          <span class="material-symbols-outlined me-2">add</span>New Customer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Modal -->
+  <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalTitle }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label">First Name *</label>
+                <input type="text" class="form-control" [(ngModel)]="customerForm.firstName" 
+                       name="firstName" required [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Last Name *</label>
+                <input type="text" class="form-control" [(ngModel)]="customerForm.lastName" 
+                       name="lastName" required [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email *</label>
+                <input type="email" class="form-control" [(ngModel)]="customerForm.email" 
+                       name="email" required [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="tel" class="form-control" [(ngModel)]="customerForm.phone" 
+                       name="phone" [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" [(ngModel)]="customerForm.city" 
+                       name="city" [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">State</label>
+                <input type="text" class="form-control" [(ngModel)]="customerForm.state" 
+                       name="state" [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Country</label>
+                <input type="text" class="form-control" [(ngModel)]="customerForm.country" 
+                       name="country" [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Status</label>
+                <select class="form-select" [(ngModel)]="customerForm.status" 
+                        name="status" [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="blocked">Blocked</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" [(ngModel)]="customerForm.dateOfBirth" 
+                       name="dateOfBirth" [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Address</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="customerForm.address" 
+                          name="address" [disabled]="!isEditMode && modalTitle === 'Customer Details'"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" (click)="closeModal()">Close</button>
+          <button *ngIf="isEditMode" type="button" class="btn btn-primary" (click)="saveCustomer()">
+            <span class="material-symbols-outlined me-2">save</span>Save Changes
+          </button>
+          <button *ngIf="!isEditMode && modalTitle !== 'Customer Details'" type="button" class="btn btn-primary" (click)="saveCustomer()">
+            <span class="material-symbols-outlined me-2">add</span>Create Customer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

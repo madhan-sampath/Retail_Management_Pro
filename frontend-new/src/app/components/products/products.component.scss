@@ -1,0 +1,245 @@
+.product-image {
+  border-radius: 8px;
+}
+
+.card-title {
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.table th {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  font-size: 0.8rem;
+}
+
+.badge {
+  font-size: 0.65rem;
+  padding: 3px 6px;
+}
+
+.fw-bold {
+  font-size: 0.85rem;
+}
+
+.text-muted {
+  font-size: 0.75rem;
+}
+
+/* Enhanced Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.btn-action {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-action .material-symbols-outlined {
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-action::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-action:hover::before {
+  transform: translateX(100%);
+}
+
+.btn-edit {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.btn-edit:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.btn-edit:hover .material-symbols-outlined {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.btn-view {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.btn-view:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.btn-view:hover .material-symbols-outlined {
+  transform: scale(1.1);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.btn-delete:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+}
+
+.btn-delete:hover .material-symbols-outlined {
+  transform: rotate(-15deg) scale(1.1);
+}
+
+.btn-action:active {
+  transform: translateY(0) scale(0.95);
+  transition: all 0.1s ease;
+}
+
+/* Grid View Action Buttons */
+.product-card {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.product-card .action-buttons {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.product-card:hover .action-buttons {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover::before {
+  transform: scaleX(1);
+}
+
+.product-card .card-body {
+  padding: 1.5rem;
+}
+
+.product-card .card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.product-card .product-image {
+  transition: all 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+/* Table Row Hover Effect */
+.table tbody tr:hover .action-buttons {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.table tbody tr .action-buttons {
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 0.7rem;
+    padding: 0.5rem;
+  }
+  
+  .btn-action {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .btn-action .material-symbols-outlined {
+    font-size: 14px;
+  }
+  
+  .badge {
+    font-size: 0.6rem;
+    padding: 2px 4px;
+  }
+}
+
+@media (max-width: 576px) {
+  .table th,
+  .table td {
+    font-size: 0.65rem;
+    padding: 0.4rem;
+  }
+  
+  .btn-action {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .btn-action .material-symbols-outlined {
+    font-size: 12px;
+  }
+  
+  .badge {
+    font-size: 0.55rem;
+    padding: 1px 3px;
+  }
+}

@@ -1,0 +1,211 @@
+<div class="fade-in">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1 text-gradient">Dashboard</h1>
+      <p class="text-muted mb-0">Welcome back! Here's what's happening with your business today.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" (click)="refreshDashboard()">
+        <span class="material-symbols-outlined me-2">refresh</span>Refresh
+      </button>
+      <button class="btn btn-primary" (click)="exportReport()">
+        <span class="material-symbols-outlined me-2">download</span>Export Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+      <div class="card dashboard-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="card-icon me-3">
+              <span class="material-symbols-outlined">shopping_cart</span>
+            </div>
+            <div>
+              <div class="card-value">{{ this.formatNumber(dashboardStats.totalOrders) }}</div>
+              <div class="card-label">Total Orders</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <div class="card dashboard-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="card-icon me-3">
+              <span class="material-symbols-outlined">attach_money</span>
+            </div>
+            <div>
+              <div class="card-value">\${{ this.formatNumber(dashboardStats.totalRevenue) }}</div>
+              <div class="card-label">Total Revenue</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <div class="card dashboard-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="card-icon me-3">
+              <span class="material-symbols-outlined">inventory</span>
+            </div>
+            <div>
+              <div class="card-value">{{ this.formatNumber(dashboardStats.totalProducts) }}</div>
+              <div class="card-label">Total Products</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+      <div class="card dashboard-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="card-icon me-3">
+              <span class="material-symbols-outlined">people</span>
+            </div>
+            <div>
+              <div class="card-value">{{ this.formatNumber(dashboardStats.totalCustomers) }}</div>
+              <div class="card-label">Total Customers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row g-4 mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <button class="btn btn-primary w-100" (click)="navigateToProducts()">
+                <span class="material-symbols-outlined me-2">inventory</span>
+                Manage Products
+              </button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-outline-primary w-100" (click)="navigateToOrders()">
+                <span class="material-symbols-outlined me-2">shopping_cart</span>
+                View Orders
+              </button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-outline-primary w-100" (click)="navigateToCustomers()">
+                <span class="material-symbols-outlined me-2">people</span>
+                Manage Customers
+              </button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-outline-primary w-100" (click)="navigateToReports()">
+                <span class="material-symbols-outlined me-2">analytics</span>
+                View Reports
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts and Tables -->
+  <div class="row g-4">
+    <!-- Recent Orders -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Recent Orders</h5>
+          <button class="btn btn-outline-primary btn-sm" (click)="navigateToOrders()">
+            View All
+          </button>
+        </div>
+        <div class="card-body p-0">
+          <div *ngIf="loading" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div *ngIf="!loading" class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Order #</th>
+                  <th>Customer</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of recentOrders">
+                  <td>
+                    <div class="fw-bold">#{{ order.orderNumber }}</div>
+                  </td>
+                  <td>
+                    <div class="fw-bold">{{ order.customerName }}</div>
+                    <small class="text-muted">{{ order.customerEmail }}</small>
+                  </td>
+                  <td>
+                    <strong>\${{ this.formatNumber(order.totalAmount) }}</strong>
+                  </td>
+                  <td>
+                    <span class="badge" [class]="'bg-' + (order.status === 'delivered' ? 'success' : order.status === 'shipped' ? 'info' : order.status === 'processing' ? 'warning' : order.status === 'cancelled' ? 'danger' : 'secondary')">
+                      {{ this.formatTitleCase(order.status) }}
+                    </span>
+                  </td>
+                  <td>
+                    <div>{{ this.formatDate(order.orderDate, 'short') }}</div>
+                    <small class="text-muted">{{ this.formatDate(order.orderDate, 'medium') }}</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Products -->
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Top Products</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div *ngIf="!loading" class="list-group list-group-flush">
+            <div *ngFor="let product of topProducts; let i = index" class="list-group-item d-flex justify-content-between align-items-center px-0">
+              <div class="d-flex align-items-center">
+                <div class="me-3">
+                  <span class="badge bg-primary">{{ i + 1 }}</span>
+                </div>
+                <div>
+                  <div class="fw-bold">{{ product.name }}</div>
+                  <small class="text-muted">{{ product.sku }}</small>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="fw-bold">\${{ this.formatNumber(product.price) }}</div>
+                <small class="text-muted">{{ product.stockQuantity }} in stock</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
