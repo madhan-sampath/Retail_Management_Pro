@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "action": "LOGIN",
+    "entityType": "User",
+    "entityId": 1,
+    "userId": 1,
+    "details": "{\"ipAddress\":\"192.168.1.100\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\"}",
+    "timestamp": "2024-01-15T10:30:00.000Z",
+    "ipAddress": "192.168.1.100",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "createdAt": "2024-01-15T10:30:00.000Z",
+    "updatedAt": "2024-01-15T10:30:00.000Z"
+  },
+  {
+    "id": 2,
+    "action": "CREATE",
+    "entityType": "Order",
+    "entityId": 1,
+    "userId": 2,
+    "details": "{\"ipAddress\":\"192.168.1.101\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\"orderData\":{\"customerId\":1,\"totalAmount\":1029.98,\"itemCount\":2}}",
+    "timestamp": "2024-01-15T08:30:00.000Z",
+    "ipAddress": "192.168.1.101",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "createdAt": "2024-01-15T08:30:00.000Z",
+    "updatedAt": "2024-01-15T08:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "action": "UPDATE",
+    "entityType": "Product",
+    "entityId": 1,
+    "userId": 1,
+    "details": "{\"ipAddress\":\"192.168.1.100\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\"changes\":{\"stockQuantity\":25}}",
+    "timestamp": "2024-01-15T10:00:00.000Z",
+    "ipAddress": "192.168.1.100",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "action": "CREATE",
+    "entityType": "Customer",
+    "entityId": 1,
+    "userId": 2,
+    "details": "{\"ipAddress\":\"192.168.1.101\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\"customerData\":{\"firstName\":\"Alice\",\"lastName\":\"Johnson\",\"email\":\"alice.johnson@email.com\"}}",
+    "timestamp": "2024-01-01T00:00:00.000Z",
+    "ipAddress": "192.168.1.101",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 5,
+    "action": "UPDATE_STATUS",
+    "entityType": "Order",
+    "entityId": 1,
+    "userId": 2,
+    "details": "{\"ipAddress\":\"192.168.1.101\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36\",\"status\":\"completed\",\"notes\":\"Order completed successfully\"}",
+    "timestamp": "2024-01-15T10:00:00.000Z",
+    "ipAddress": "192.168.1.101",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  }
+]

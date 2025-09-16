@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "orderId": 1,
+    "transactionId": "TXN-202401150830001",
+    "amount": 1029.98,
+    "paymentMethod": "credit_card",
+    "status": "completed",
+    "paymentDate": "2024-01-15T08:30:00.000Z",
+    "notes": "Payment processed successfully",
+    "createdAt": "2024-01-15T08:30:00.000Z",
+    "updatedAt": "2024-01-15T08:30:00.000Z"
+  },
+  {
+    "id": 2,
+    "orderId": 2,
+    "transactionId": "TXN-202401150915002",
+    "amount": 109.98,
+    "paymentMethod": "cash",
+    "status": "completed",
+    "paymentDate": "2024-01-15T09:15:00.000Z",
+    "notes": "Cash payment received",
+    "createdAt": "2024-01-15T09:15:00.000Z",
+    "updatedAt": "2024-01-15T09:15:00.000Z"
+  },
+  {
+    "id": 3,
+    "orderId": 3,
+    "transactionId": "TXN-202401151000003",
+    "amount": 64.98,
+    "paymentMethod": "debit_card",
+    "status": "pending",
+    "paymentDate": "2024-01-15T10:00:00.000Z",
+    "notes": "Payment processing",
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "orderId": 4,
+    "transactionId": "TXN-202401141420004",
+    "amount": 2499.99,
+    "paymentMethod": "credit_card",
+    "status": "completed",
+    "paymentDate": "2024-01-14T14:20:00.000Z",
+    "notes": "Express payment processed",
+    "createdAt": "2024-01-14T14:20:00.000Z",
+    "updatedAt": "2024-01-14T14:20:00.000Z"
+  },
+  {
+    "id": 5,
+    "orderId": 5,
+    "transactionId": "TXN-202401141645005",
+    "amount": 199.99,
+    "paymentMethod": "credit_card",
+    "status": "completed",
+    "paymentDate": "2024-01-14T16:45:00.000Z",
+    "notes": "Gift order payment",
+    "createdAt": "2024-01-14T16:45:00.000Z",
+    "updatedAt": "2024-01-14T16:45:00.000Z"
+  },
+  {
+    "id": 6,
+    "orderId": 6,
+    "transactionId": "TXN-202401131130006",
+    "amount": 154.98,
+    "paymentMethod": "cash",
+    "status": "completed",
+    "paymentDate": "2024-01-13T11:30:00.000Z",
+    "notes": "Cash payment received",
+    "createdAt": "2024-01-13T11:30:00.000Z",
+    "updatedAt": "2024-01-13T11:30:00.000Z"
+  },
+  {
+    "id": 7,
+    "orderId": 7,
+    "transactionId": "TXN-202401131520007",
+    "amount": 89.99,
+    "paymentMethod": "debit_card",
+    "status": "completed",
+    "paymentDate": "2024-01-13T15:20:00.000Z",
+    "notes": "Debit card payment",
+    "createdAt": "2024-01-13T15:20:00.000Z",
+    "updatedAt": "2024-01-13T15:20:00.000Z"
+  },
+  {
+    "id": 8,
+    "orderId": 8,
+    "transactionId": "TXN-202401120945008",
+    "amount": 34.99,
+    "paymentMethod": "credit_card",
+    "status": "completed",
+    "paymentDate": "2024-01-12T09:45:00.000Z",
+    "notes": "Credit card payment",
+    "createdAt": "2024-01-12T09:45:00.000Z",
+    "updatedAt": "2024-01-12T09:45:00.000Z"
+  },
+  {
+    "id": 9,
+    "orderId": 9,
+    "transactionId": "TXN-202401121310009",
+    "amount": 129.99,
+    "paymentMethod": "credit_card",
+    "status": "cancelled",
+    "paymentDate": "2024-01-12T13:10:00.000Z",
+    "notes": "Payment cancelled by customer",
+    "createdAt": "2024-01-12T13:10:00.000Z",
+    "updatedAt": "2024-01-12T14:00:00.000Z"
+  },
+  {
+    "id": 10,
+    "orderId": 10,
+    "transactionId": "TXN-202401111630010",
+    "amount": 24.99,
+    "paymentMethod": "cash",
+    "status": "completed",
+    "paymentDate": "2024-01-11T16:30:00.000Z",
+    "notes": "Cash payment received",
+    "createdAt": "2024-01-11T16:30:00.000Z",
+    "updatedAt": "2024-01-11T16:30:00.000Z"
+  }
+]

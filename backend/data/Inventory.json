@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "productId": 1,
+    "currentStock": 25,
+    "minStockLevel": 5,
+    "maxStockLevel": 100,
+    "unitCost": 750.00,
+    "location": "Main Warehouse",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "productId": 2,
+    "currentStock": 15,
+    "minStockLevel": 3,
+    "maxStockLevel": 50,
+    "unitCost": 2000.00,
+    "location": "Main Warehouse",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "productId": 3,
+    "currentStock": 100,
+    "minStockLevel": 20,
+    "maxStockLevel": 200,
+    "unitCost": 15.00,
+    "location": "Main Warehouse",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "productId": 4,
+    "currentStock": 50,
+    "minStockLevel": 10,
+    "maxStockLevel": 100,
+    "unitCost": 40.00,
+    "location": "Main Warehouse",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 5,
+    "productId": 5,
+    "currentStock": 30,
+    "minStockLevel": 5,
+    "maxStockLevel": 50,
+    "unitCost": 20.00,
+    "location": "Garden Center",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 6,
+    "productId": 6,
+    "currentStock": 75,
+    "minStockLevel": 15,
+    "maxStockLevel": 150,
+    "unitCost": 12.00,
+    "location": "Book Section",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 7,
+    "productId": 7,
+    "currentStock": 40,
+    "minStockLevel": 8,
+    "maxStockLevel": 80,
+    "unitCost": 18.00,
+    "location": "Sports Section",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 8,
+    "productId": 8,
+    "currentStock": 20,
+    "minStockLevel": 4,
+    "maxStockLevel": 60,
+    "unitCost": 120.00,
+    "location": "Electronics Section",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 9,
+    "productId": 9,
+    "currentStock": 60,
+    "minStockLevel": 12,
+    "maxStockLevel": 120,
+    "unitCost": 65.00,
+    "location": "Sports Section",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 10,
+    "productId": 10,
+    "currentStock": 35,
+    "minStockLevel": 7,
+    "maxStockLevel": 70,
+    "unitCost": 45.00,
+    "location": "Home & Kitchen",
+    "lastUpdated": "2024-01-15T10:00:00.000Z",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  }
+]

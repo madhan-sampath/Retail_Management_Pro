@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Daily Sales Report",
+    "type": "sales",
+    "description": "Daily sales summary report",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "name": "Inventory Report",
+    "type": "inventory",
+    "description": "Current inventory status report",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "name": "Customer Report",
+    "type": "customer",
+    "description": "Customer activity and statistics report",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "name": "Product Performance Report",
+    "type": "product",
+    "description": "Product sales and performance analysis",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 5,
+    "name": "Financial Report",
+    "type": "financial",
+    "description": "Revenue and financial summary report",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]

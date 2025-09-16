@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "orderId": 1,
+    "productId": 1,
+    "quantity": 1,
+    "unitPrice": 999.99,
+    "total": 999.99,
+    "createdAt": "2024-01-15T08:30:00.000Z",
+    "updatedAt": "2024-01-15T08:30:00.000Z"
+  },
+  {
+    "id": 2,
+    "orderId": 1,
+    "productId": 3,
+    "quantity": 1,
+    "unitPrice": 29.99,
+    "total": 29.99,
+    "createdAt": "2024-01-15T08:30:00.000Z",
+    "updatedAt": "2024-01-15T08:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "orderId": 2,
+    "productId": 4,
+    "quantity": 1,
+    "unitPrice": 79.99,
+    "total": 79.99,
+    "createdAt": "2024-01-15T09:15:00.000Z",
+    "updatedAt": "2024-01-15T09:15:00.000Z"
+  },
+  {
+    "id": 4,
+    "orderId": 2,
+    "productId": 7,
+    "quantity": 1,
+    "unitPrice": 34.99,
+    "total": 34.99,
+    "createdAt": "2024-01-15T09:15:00.000Z",
+    "updatedAt": "2024-01-15T09:15:00.000Z"
+  },
+  {
+    "id": 5,
+    "orderId": 3,
+    "productId": 5,
+    "quantity": 1,
+    "unitPrice": 39.99,
+    "total": 39.99,
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 6,
+    "orderId": 3,
+    "productId": 6,
+    "quantity": 1,
+    "unitPrice": 24.99,
+    "total": 24.99,
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": 7,
+    "orderId": 4,
+    "productId": 2,
+    "quantity": 1,
+    "unitPrice": 2499.99,
+    "total": 2499.99,
+    "createdAt": "2024-01-14T14:20:00.000Z",
+    "updatedAt": "2024-01-14T14:20:00.000Z"
+  },
+  {
+    "id": 8,
+    "orderId": 5,
+    "productId": 8,
+    "quantity": 1,
+    "unitPrice": 199.99,
+    "total": 199.99,
+    "createdAt": "2024-01-14T16:45:00.000Z",
+    "updatedAt": "2024-01-14T16:45:00.000Z"
+  },
+  {
+    "id": 9,
+    "orderId": 6,
+    "productId": 9,
+    "quantity": 1,
+    "unitPrice": 129.99,
+    "total": 129.99,
+    "createdAt": "2024-01-13T11:30:00.000Z",
+    "updatedAt": "2024-01-13T11:30:00.000Z"
+  },
+  {
+    "id": 10,
+    "orderId": 6,
+    "productId": 7,
+    "quantity": 1,
+    "unitPrice": 34.99,
+    "total": 34.99,
+    "createdAt": "2024-01-13T11:30:00.000Z",
+    "updatedAt": "2024-01-13T11:30:00.000Z"
+  },
+  {
+    "id": 11,
+    "orderId": 7,
+    "productId": 10,
+    "quantity": 1,
+    "unitPrice": 89.99,
+    "total": 89.99,
+    "createdAt": "2024-01-13T15:20:00.000Z",
+    "updatedAt": "2024-01-13T15:20:00.000Z"
+  },
+  {
+    "id": 12,
+    "orderId": 8,
+    "productId": 7,
+    "quantity": 1,
+    "unitPrice": 34.99,
+    "total": 34.99,
+    "createdAt": "2024-01-12T09:45:00.000Z",
+    "updatedAt": "2024-01-12T09:45:00.000Z"
+  },
+  {
+    "id": 13,
+    "orderId": 9,
+    "productId": 9,
+    "quantity": 1,
+    "unitPrice": 129.99,
+    "total": 129.99,
+    "createdAt": "2024-01-12T13:10:00.000Z",
+    "updatedAt": "2024-01-12T13:10:00.000Z"
+  },
+  {
+    "id": 14,
+    "orderId": 10,
+    "productId": 6,
+    "quantity": 1,
+    "unitPrice": 24.99,
+    "total": 24.99,
+    "createdAt": "2024-01-11T16:30:00.000Z",
+    "updatedAt": "2024-01-11T16:30:00.000Z"
+  }
+]
