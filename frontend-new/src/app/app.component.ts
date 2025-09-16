@@ -9,12 +9,12 @@ import { SidebarComponent } from './components/shared/sidebar/sidebar.component'
   standalone: true,
   imports: [CommonModule, RouterOutlet, NavbarComponent, SidebarComponent],
   template: `
-    <div class="d-flex">
+    <div class="app-container">
       <!-- Sidebar -->
-      <app-sidebar class="sidebar-container"></app-sidebar>
+      <app-sidebar></app-sidebar>
       
       <!-- Main Content -->
-      <div class="main-content flex-grow-1" (click)="closeSidebarOnMobile()">
+      <div class="main-content" (click)="closeSidebarOnMobile()">
         <!-- Navbar -->
         <app-navbar></app-navbar>
         

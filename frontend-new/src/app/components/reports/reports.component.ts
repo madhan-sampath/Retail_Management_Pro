@@ -387,17 +387,81 @@ import { ApiService } from '../../services/api.service';
     .card-title {
       color: white;
       font-weight: 600;
+      font-size: 1rem;
     }
 
     .table th {
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
+    .table td {
+      font-size: 0.8rem;
+    }
+
     .badge {
+      font-size: 0.65rem;
+      padding: 3px 6px;
+    }
+
+    .h3 {
+      font-size: 1.5rem;
+    }
+
+    .h4 {
+      font-size: 1.25rem;
+    }
+
+    .small {
       font-size: 0.75rem;
+    }
+
+    .text-muted {
+      font-size: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      .table th,
+      .table td {
+        font-size: 0.7rem;
+        padding: 0.5rem;
+      }
+      
+      .badge {
+        font-size: 0.6rem;
+        padding: 2px 4px;
+      }
+      
+      .h3 {
+        font-size: 1.25rem;
+      }
+      
+      .h4 {
+        font-size: 1.125rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .table th,
+      .table td {
+        font-size: 0.65rem;
+        padding: 0.4rem;
+      }
+      
+      .badge {
+        font-size: 0.55rem;
+        padding: 1px 3px;
+      }
+      
+      .h3 {
+        font-size: 1rem;
+      }
+      
+      .h4 {
+        font-size: 0.875rem;
+      }
     }
   `]
 })
@@ -540,8 +604,94 @@ export class ReportsComponent implements OnInit {
   }
 
   exportReport() {
-    // Implementation for exporting reports
-    console.log('Export report functionality');
+    const reportData = this.getCurrentReportData();
+    if (!reportData) {
+      alert('No report data available to export');
+      return;
+    }
+
+    const csvContent = this.generateReportCSV(reportData);
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${this.selectedReportType}_report_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  getCurrentReportData(): any {
+    switch (this.selectedReportType) {
+      case 'sales':
+        return this.salesReport;
+      case 'inventory':
+        return this.inventoryReport;
+      case 'customers':
+        return this.customerReport;
+      case 'revenue':
+        return this.revenueReport;
+      default:
+        return null;
+    }
+  }
+
+  generateReportCSV(reportData: any): string {
+    let headers: string[] = [];
+    let rows: any[] = [];
+
+    switch (this.selectedReportType) {
+      case 'sales':
+        headers = ['Product', 'Quantity Sold', 'Revenue'];
+        rows = reportData.topProducts || [];
+        break;
+      case 'inventory':
+        headers = ['Product', 'Current Stock', 'Min Level', 'Status'];
+        rows = reportData.lowStockItems || [];
+        break;
+      case 'customers':
+        headers = ['Customer', 'Orders', 'Total Spent', 'Avg Order Value'];
+        rows = reportData.topCustomers || [];
+        break;
+      case 'revenue':
+        headers = ['Payment Method', 'Amount', 'Percentage'];
+        const paymentMethods = this.getPaymentMethods();
+        rows = paymentMethods.map(method => ({
+          name: method.name,
+          amount: method.amount,
+          percentage: this.formatPercentage(method.amount, reportData.totalRevenue)
+        }));
+        break;
+      default:
+        return '';
+    }
+
+    const csvRows = [headers, ...rows.map(row => 
+      headers.map(header => {
+        const key = this.getKeyFromHeader(header);
+        return `"${row[key] || ''}"`;
+      })
+    )];
+
+    return csvRows.map(row => row.join(',')).join('\n');
+  }
+
+  getKeyFromHeader(header: string): string {
+    const keyMap: { [key: string]: string } = {
+      'Product': 'productName',
+      'Quantity Sold': 'quantity',
+      'Revenue': 'revenue',
+      'Current Stock': 'currentStock',
+      'Min Level': 'minStockLevel',
+      'Status': 'status',
+      'Customer': 'firstName',
+      'Orders': 'orderCount',
+      'Total Spent': 'totalSpent',
+      'Avg Order Value': 'averageOrderValue',
+      'Payment Method': 'name',
+      'Amount': 'amount',
+      'Percentage': 'percentage'
+    };
+    return keyMap[header] || header.toLowerCase().replace(/\s+/g, '');
   }
 
   getPaymentMethods() {

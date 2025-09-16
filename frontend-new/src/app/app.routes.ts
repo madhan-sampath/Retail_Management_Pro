@@ -1,4 +1,9 @@
 import { Routes } from '@angular/router';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ProductsComponent } from './components/products/products.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { CustomersComponent } from './components/customers/customers.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 export const routes: Routes = [
   {
@@ -8,23 +13,23 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
+    component: DashboardComponent
   },
   {
     path: 'products',
-    loadComponent: () => import('./components/products/products.component').then(m => m.ProductsComponent)
+    component: ProductsComponent
   },
   {
     path: 'orders',
-    loadComponent: () => import('./components/orders/orders.component').then(m => m.OrdersComponent)
+    component: OrdersComponent
   },
   {
     path: 'customers',
-    loadComponent: () => import('./components/customers/customers.component').then(m => m.CustomersComponent)
+    component: CustomersComponent
   },
   {
     path: 'reports',
-    loadComponent: () => import('./components/reports/reports.component').then(m => m.ReportsComponent)
+    component: ReportsComponent
   },
   {
     path: '**',

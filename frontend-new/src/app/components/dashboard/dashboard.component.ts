@@ -224,22 +224,65 @@ interface DashboardStats {
     .card-title {
       color: white;
       font-weight: 600;
+      font-size: 1rem;
     }
 
     .table th {
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .table td {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     .badge {
+      font-size: 0.65rem;
+      padding: 4px 8px;
+    }
+
+    .card-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .card-label {
       font-size: 0.75rem;
-      padding: 6px 12px;
+      color: var(--text-muted);
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .card-value {
+        font-size: 1.25rem;
+      }
+      
+      .card-label {
+        font-size: 0.7rem;
+      }
+      
+      .card-icon {
+        font-size: 1.25rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .card-value {
+        font-size: 1rem;
+      }
+      
+      .card-label {
+        font-size: 0.65rem;
+      }
+      
+      .card-icon {
+        font-size: 1rem;
+      }
     }
   `]
 })

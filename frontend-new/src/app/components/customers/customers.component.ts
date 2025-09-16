@@ -306,31 +306,234 @@ import { ApiService, Customer } from '../../services/api.service';
           </div>
         </div>
       </div>
+
+      <!-- Customer Modal -->
+      <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ modalTitle }}</h5>
+              <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">First Name *</label>
+                    <input type="text" class="form-control" [(ngModel)]="customerForm.firstName" 
+                           name="firstName" required [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Last Name *</label>
+                    <input type="text" class="form-control" [(ngModel)]="customerForm.lastName" 
+                           name="lastName" required [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Email *</label>
+                    <input type="email" class="form-control" [(ngModel)]="customerForm.email" 
+                           name="email" required [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-control" [(ngModel)]="customerForm.phone" 
+                           name="phone" [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-control" [(ngModel)]="customerForm.address" 
+                           name="address" [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">City</label>
+                    <input type="text" class="form-control" [(ngModel)]="customerForm.city" 
+                           name="city" [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">State</label>
+                    <input type="text" class="form-control" [(ngModel)]="customerForm.state" 
+                           name="state" [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Zip Code</label>
+                    <input type="text" class="form-control" [(ngModel)]="customerForm.zipCode" 
+                           name="zipCode" [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Company</label>
+                    <input type="text" class="form-control" [(ngModel)]="customerForm.company" 
+                           name="company" [readonly]="!isEditMode && modalTitle === 'Customer Details'">
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="customerForm.isActive" 
+                             name="isActive" [disabled]="!isEditMode && modalTitle === 'Customer Details'">
+                      <label class="form-check-label">
+                        Active Customer
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+              <button *ngIf="isEditMode" type="button" class="btn btn-primary" (click)="saveCustomer()">
+                <i class="fas fa-save me-2"></i>Save Changes
+              </button>
+              <button *ngIf="!isEditMode && modalTitle !== 'Customer Details'" type="button" class="btn btn-success" (click)="saveCustomer()">
+                <i class="fas fa-plus me-2"></i>Create Customer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Orders Modal -->
+      <div *ngIf="showOrdersModal" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Orders for {{ selectedCustomer?.firstName }} {{ selectedCustomer?.lastName }}</h5>
+              <button type="button" class="btn-close" (click)="closeOrdersModal()"></button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="customerOrders.length === 0" class="text-center py-4">
+                <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                <h6 class="text-muted">No orders found for this customer</h6>
+              </div>
+              
+              <div *ngIf="customerOrders.length > 0" class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Order #</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Payment</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let order of customerOrders">
+                      <td>
+                        <div class="fw-bold">{{ order.orderNumber }}</div>
+                        <small class="text-muted">ID: {{ order.id }}</small>
+                      </td>
+                      <td>
+                        <div class="fw-bold">\${{ formatNumber(order.totalAmount) }}</div>
+                      </td>
+                      <td>
+                        <span [class]="'badge ' + getStatusClass(order.status)">
+                          {{ formatTitleCase(order.status) }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="badge bg-secondary">{{ formatTitleCase(order.paymentMethod) }}</span>
+                      </td>
+                      <td>
+                        <div>{{ formatDate(order.orderDate, 'short') }}</div>
+                        <small class="text-muted">{{ formatDate(order.orderDate, 'medium') }}</small>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closeOrdersModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
     .card-title {
       color: white;
       font-weight: 600;
+      font-size: 1rem;
     }
 
     .table th {
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
+    .table td {
+      font-size: 0.8rem;
+    }
+
     .avatar {
       font-weight: 600;
+      font-size: 0.7rem;
     }
 
     .btn-group-sm .btn {
-      padding: 0.25rem 0.5rem;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.7rem;
     }
 
     .badge {
+      font-size: 0.65rem;
+      padding: 3px 6px;
+    }
+
+    .fw-bold {
+      font-size: 0.85rem;
+    }
+
+    .text-muted {
       font-size: 0.75rem;
+    }
+
+    .small {
+      font-size: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      .table th,
+      .table td {
+        font-size: 0.7rem;
+        padding: 0.5rem;
+      }
+      
+      .btn-group-sm .btn {
+        padding: 0.15rem 0.3rem;
+        font-size: 0.65rem;
+      }
+      
+      .badge {
+        font-size: 0.6rem;
+        padding: 2px 4px;
+      }
+      
+      .avatar {
+        font-size: 0.65rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .table th,
+      .table td {
+        font-size: 0.65rem;
+        padding: 0.4rem;
+      }
+      
+      .btn-group-sm .btn {
+        padding: 0.1rem 0.2rem;
+        font-size: 0.6rem;
+      }
+      
+      .badge {
+        font-size: 0.55rem;
+        padding: 1px 3px;
+      }
+      
+      .avatar {
+        font-size: 0.6rem;
+      }
     }
   `]
 })
@@ -471,29 +674,186 @@ export class CustomersComponent implements OnInit {
     this.loadCustomers();
   }
 
+  // Modal properties
+  showModal = false;
+  modalTitle = '';
+  isEditMode = false;
+  selectedCustomer: Customer | null = null;
+  customerForm: any = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    company: '',
+    isActive: true
+  };
+
+  // Customer orders for view
+  customerOrders: any[] = [];
+  showOrdersModal = false;
+
   exportCustomers() {
-    // Implementation for exporting customers
-    console.log('Export customers functionality');
+    const csvContent = this.generateCustomersCSV();
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `customers_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  generateCustomersCSV(): string {
+    const headers = ['Name', 'Email', 'Phone', 'Address', 'City', 'State', 'Zip Code', 'Company', 'Status', 'Created Date'];
+    const rows = this.filteredCustomers.map(customer => [
+      `${customer.firstName} ${customer.lastName}`,
+      customer.email,
+      customer.phone,
+      customer.address,
+      customer.city,
+      customer.state,
+      customer.zipCode,
+      customer.company || '',
+      customer.isActive ? 'Active' : 'Inactive',
+      this.formatDate(customer.createdAt, 'short')
+    ]);
+    
+    return [headers, ...rows].map(row => 
+      row.map(field => `"${field}"`).join(',')
+    ).join('\n');
   }
 
   openAddModal() {
-    // Implementation for opening add customer modal
-    console.log('Open add customer modal');
+    this.modalTitle = 'Add New Customer';
+    this.isEditMode = false;
+    this.selectedCustomer = null;
+    this.customerForm = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      address: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      company: '',
+      isActive: true
+    };
+    this.showModal = true;
   }
 
   viewCustomer(customer: Customer) {
-    // Implementation for viewing customer details
-    console.log('View customer:', customer);
+    this.modalTitle = 'Customer Details';
+    this.isEditMode = false;
+    this.selectedCustomer = customer;
+    this.customerForm = {
+      firstName: customer.firstName,
+      lastName: customer.lastName,
+      email: customer.email,
+      phone: customer.phone,
+      address: customer.address,
+      city: customer.city,
+      state: customer.state,
+      zipCode: customer.zipCode,
+      company: customer.company,
+      isActive: customer.isActive
+    };
+    this.showModal = true;
   }
 
   editCustomer(customer: Customer) {
-    // Implementation for editing customer
-    console.log('Edit customer:', customer);
+    this.modalTitle = 'Edit Customer';
+    this.isEditMode = true;
+    this.selectedCustomer = customer;
+    this.customerForm = {
+      firstName: customer.firstName,
+      lastName: customer.lastName,
+      email: customer.email,
+      phone: customer.phone,
+      address: customer.address,
+      city: customer.city,
+      state: customer.state,
+      zipCode: customer.zipCode,
+      company: customer.company,
+      isActive: customer.isActive
+    };
+    this.showModal = true;
   }
 
   viewOrders(customer: Customer) {
-    // Implementation for viewing customer orders
-    console.log('View orders for customer:', customer);
+    this.selectedCustomer = customer;
+    this.loadCustomerOrders(customer.id);
+    this.showOrdersModal = true;
+  }
+
+  loadCustomerOrders(customerId: number) {
+    this.apiService.getOrders({ customerId }).subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.customerOrders = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error loading customer orders:', error);
+      }
+    });
+  }
+
+  saveCustomer() {
+    if (this.isEditMode && this.selectedCustomer) {
+      this.apiService.updateCustomer(this.selectedCustomer.id, this.customerForm).subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.showModal = false;
+            this.loadCustomers();
+            this.loadCustomerStats();
+            this.showSuccessMessage('Customer updated successfully!');
+          }
+        },
+        error: (error) => {
+          console.error('Error updating customer:', error);
+          this.showErrorMessage('Error updating customer');
+        }
+      });
+    } else {
+      this.apiService.createCustomer(this.customerForm).subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.showModal = false;
+            this.loadCustomers();
+            this.loadCustomerStats();
+            this.showSuccessMessage('Customer created successfully!');
+          }
+        },
+        error: (error) => {
+          console.error('Error creating customer:', error);
+          this.showErrorMessage('Error creating customer');
+        }
+      });
+    }
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.selectedCustomer = null;
+  }
+
+  closeOrdersModal() {
+    this.showOrdersModal = false;
+    this.selectedCustomer = null;
+    this.customerOrders = [];
+  }
+
+  showSuccessMessage(message: string) {
+    alert(message);
+  }
+
+  showErrorMessage(message: string) {
+    alert(message);
   }
 
   toggleCustomerStatus(customer: Customer) {
@@ -529,5 +889,27 @@ export class CustomersComponent implements OnInit {
 
   getInitials(firstName: string, lastName: string): string {
     return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+  }
+
+  formatTitleCase(value: string): string {
+    return value.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  }
+
+  getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'completed':
+      case 'delivered':
+        return 'bg-success';
+      case 'pending':
+        return 'bg-warning';
+      case 'processing':
+        return 'bg-info';
+      case 'shipped':
+        return 'bg-primary';
+      case 'cancelled':
+        return 'bg-danger';
+      default:
+        return 'bg-secondary';
+    }
   }
 }

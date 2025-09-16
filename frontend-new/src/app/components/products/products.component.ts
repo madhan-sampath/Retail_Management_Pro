@@ -236,6 +236,102 @@ import { ApiService, Product } from '../../services/api.service';
           </div>
         </div>
       </div>
+
+      <!-- Product Modal -->
+      <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ modalTitle }}</h5>
+              <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Product Name *</label>
+                    <input type="text" class="form-control" [(ngModel)]="productForm.name" 
+                           name="name" required [readonly]="!isEditMode && modalTitle === 'Product Details'">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">SKU *</label>
+                    <input type="text" class="form-control" [(ngModel)]="productForm.sku" 
+                           name="sku" required [readonly]="!isEditMode && modalTitle === 'Product Details'">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" rows="3" [(ngModel)]="productForm.description" 
+                              name="description" [readonly]="!isEditMode && modalTitle === 'Product Details'"></textarea>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Barcode</label>
+                    <input type="text" class="form-control" [(ngModel)]="productForm.barcode" 
+                           name="barcode" [readonly]="!isEditMode && modalTitle === 'Product Details'">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" [(ngModel)]="productForm.categoryId" 
+                            name="categoryId" [disabled]="!isEditMode && modalTitle === 'Product Details'">
+                      <option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Price *</label>
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="number" class="form-control" [(ngModel)]="productForm.price" 
+                             name="price" step="0.01" required [readonly]="!isEditMode && modalTitle === 'Product Details'">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Cost</label>
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="number" class="form-control" [(ngModel)]="productForm.cost" 
+                             name="cost" step="0.01" [readonly]="!isEditMode && modalTitle === 'Product Details'">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Stock Quantity</label>
+                    <input type="number" class="form-control" [(ngModel)]="productForm.stockQuantity" 
+                           name="stockQuantity" [readonly]="!isEditMode && modalTitle === 'Product Details'">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Min Stock Level</label>
+                    <input type="number" class="form-control" [(ngModel)]="productForm.minStockLevel" 
+                           name="minStockLevel" [readonly]="!isEditMode && modalTitle === 'Product Details'">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Max Stock Level</label>
+                    <input type="number" class="form-control" [(ngModel)]="productForm.maxStockLevel" 
+                           name="maxStockLevel" [readonly]="!isEditMode && modalTitle === 'Product Details'">
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="productForm.isActive" 
+                             name="isActive" [disabled]="!isEditMode && modalTitle === 'Product Details'">
+                      <label class="form-check-label">
+                        Active Product
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+              <button *ngIf="isEditMode" type="button" class="btn btn-primary" (click)="saveProduct()">
+                <i class="fas fa-save me-2"></i>Save Changes
+              </button>
+              <button *ngIf="!isEditMode && modalTitle !== 'Product Details'" type="button" class="btn btn-success" (click)="saveProduct()">
+                <i class="fas fa-plus me-2"></i>Create Product
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
@@ -246,21 +342,72 @@ import { ApiService, Product } from '../../services/api.service';
     .card-title {
       color: white;
       font-weight: 600;
+      font-size: 1rem;
     }
 
     .table th {
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
+    .table td {
+      font-size: 0.8rem;
+    }
+
     .btn-group-sm .btn {
-      padding: 0.25rem 0.5rem;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.7rem;
     }
 
     .badge {
+      font-size: 0.65rem;
+      padding: 3px 6px;
+    }
+
+    .fw-bold {
+      font-size: 0.85rem;
+    }
+
+    .text-muted {
       font-size: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      .table th,
+      .table td {
+        font-size: 0.7rem;
+        padding: 0.5rem;
+      }
+      
+      .btn-group-sm .btn {
+        padding: 0.15rem 0.3rem;
+        font-size: 0.65rem;
+      }
+      
+      .badge {
+        font-size: 0.6rem;
+        padding: 2px 4px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .table th,
+      .table td {
+        font-size: 0.65rem;
+        padding: 0.4rem;
+      }
+      
+      .btn-group-sm .btn {
+        padding: 0.1rem 0.2rem;
+        font-size: 0.6rem;
+      }
+      
+      .badge {
+        font-size: 0.55rem;
+        padding: 1px 3px;
+      }
     }
   `]
 })
@@ -357,24 +504,157 @@ export class ProductsComponent implements OnInit {
     this.loadProducts();
   }
 
+  // Modal properties
+  showModal = false;
+  modalTitle = '';
+  isEditMode = false;
+  selectedProduct: Product | null = null;
+  productForm: any = {
+    name: '',
+    description: '',
+    sku: '',
+    barcode: '',
+    price: 0,
+    cost: 0,
+    categoryId: 1,
+    supplierId: 1,
+    stockQuantity: 0,
+    minStockLevel: 0,
+    maxStockLevel: 100,
+    isActive: true
+  };
+
+  // Categories for dropdown
+  categories = [
+    { id: 1, name: 'Electronics' },
+    { id: 2, name: 'Clothing' },
+    { id: 3, name: 'Home & Garden' },
+    { id: 4, name: 'Books' },
+    { id: 5, name: 'Sports' }
+  ];
+
   exportProducts() {
-    // Implementation for exporting products
-    console.log('Export products functionality');
+    const csvContent = this.generateCSV();
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `products_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  generateCSV(): string {
+    const headers = ['Name', 'SKU', 'Description', 'Price', 'Cost', 'Stock', 'Category', 'Status'];
+    const rows = this.filteredProducts.map(product => [
+      product.name,
+      product.sku,
+      product.description,
+      product.price,
+      product.cost,
+      product.stockQuantity,
+      product.category?.name || 'N/A',
+      product.isActive ? 'Active' : 'Inactive'
+    ]);
+    
+    return [headers, ...rows].map(row => 
+      row.map(field => `"${field}"`).join(',')
+    ).join('\n');
   }
 
   openAddModal() {
-    // Implementation for opening add product modal
-    console.log('Open add product modal');
+    this.modalTitle = 'Add New Product';
+    this.isEditMode = false;
+    this.selectedProduct = null;
+    this.productForm = {
+      name: '',
+      description: '',
+      sku: '',
+      barcode: '',
+      price: 0,
+      cost: 0,
+      categoryId: 1,
+      supplierId: 1,
+      stockQuantity: 0,
+      minStockLevel: 0,
+      maxStockLevel: 100,
+      isActive: true
+    };
+    this.showModal = true;
   }
 
   editProduct(product: Product) {
-    // Implementation for editing product
-    console.log('Edit product:', product);
+    this.modalTitle = 'Edit Product';
+    this.isEditMode = true;
+    this.selectedProduct = product;
+    this.productForm = {
+      name: product.name,
+      description: product.description,
+      sku: product.sku,
+      barcode: product.barcode,
+      price: product.price,
+      cost: product.cost,
+      categoryId: product.categoryId,
+      supplierId: product.supplierId,
+      stockQuantity: product.stockQuantity,
+      minStockLevel: product.minStockLevel,
+      maxStockLevel: product.maxStockLevel,
+      isActive: product.isActive
+    };
+    this.showModal = true;
   }
 
   viewProduct(product: Product) {
-    // Implementation for viewing product details
-    console.log('View product:', product);
+    this.modalTitle = 'Product Details';
+    this.isEditMode = false;
+    this.selectedProduct = product;
+    this.productForm = {
+      name: product.name,
+      description: product.description,
+      sku: product.sku,
+      barcode: product.barcode,
+      price: product.price,
+      cost: product.cost,
+      categoryId: product.categoryId,
+      supplierId: product.supplierId,
+      stockQuantity: product.stockQuantity,
+      minStockLevel: product.minStockLevel,
+      maxStockLevel: product.maxStockLevel,
+      isActive: product.isActive
+    };
+    this.showModal = true;
+  }
+
+  saveProduct() {
+    if (this.isEditMode && this.selectedProduct) {
+      this.apiService.updateProduct(this.selectedProduct.id, this.productForm).subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.showModal = false;
+            this.loadProducts();
+            this.showSuccessMessage('Product updated successfully!');
+          }
+        },
+        error: (error) => {
+          console.error('Error updating product:', error);
+          this.showErrorMessage('Error updating product');
+        }
+      });
+    } else {
+      this.apiService.createProduct(this.productForm).subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.showModal = false;
+            this.loadProducts();
+            this.showSuccessMessage('Product created successfully!');
+          }
+        },
+        error: (error) => {
+          console.error('Error creating product:', error);
+          this.showErrorMessage('Error creating product');
+        }
+      });
+    }
   }
 
   deleteProduct(product: Product) {
@@ -383,12 +663,29 @@ export class ProductsComponent implements OnInit {
         next: (response) => {
           if (response.success) {
             this.loadProducts();
+            this.showSuccessMessage('Product deleted successfully!');
           }
         },
         error: (error) => {
           console.error('Error deleting product:', error);
+          this.showErrorMessage('Error deleting product');
         }
       });
     }
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.selectedProduct = null;
+  }
+
+  showSuccessMessage(message: string) {
+    // You can implement a toast notification here
+    alert(message);
+  }
+
+  showErrorMessage(message: string) {
+    // You can implement a toast notification here
+    alert(message);
   }
 }
