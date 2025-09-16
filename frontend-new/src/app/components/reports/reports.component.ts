@@ -385,7 +385,7 @@ import { ApiService } from '../../services/api.service';
   `,
   styles: [`
     .card-title {
-      color: white;
+      color: #1e293b;
       font-weight: 600;
       font-size: 1rem;
     }

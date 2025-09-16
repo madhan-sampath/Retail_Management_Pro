@@ -30,10 +30,10 @@ interface DashboardStats {
         </div>
         <div class="d-flex gap-2">
           <button class="btn btn-outline-primary">
-            <i class="fas fa-download me-2"></i>Export Report
+            <span class="material-symbols-outlined me-2">download</span>Export Report
           </button>
           <button class="btn btn-primary">
-            <i class="fas fa-plus me-2"></i>New Order
+            <span class="material-symbols-outlined me-2">add_shopping_cart</span>New Order
           </button>
         </div>
       </div>
@@ -49,7 +49,7 @@ interface DashboardStats {
                 <div class="card-label">Today's Orders</div>
               </div>
               <div class="card-icon text-primary">
-                <i class="fas fa-shopping-cart"></i>
+                <span class="material-symbols-outlined">shopping_cart</span>
               </div>
             </div>
           </div>
@@ -64,7 +64,7 @@ interface DashboardStats {
                 <div class="card-label">Today's Revenue</div>
               </div>
               <div class="card-icon text-success">
-                <i class="fas fa-dollar-sign"></i>
+                <span class="material-symbols-outlined">attach_money</span>
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@ interface DashboardStats {
                 <div class="card-label">Total Products</div>
               </div>
               <div class="card-icon text-info">
-                <i class="fas fa-box"></i>
+                <span class="material-symbols-outlined">inventory</span>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ interface DashboardStats {
                 <div class="card-label">Total Customers</div>
               </div>
               <div class="card-icon text-warning">
-                <i class="fas fa-users"></i>
+                <span class="material-symbols-outlined">people</span>
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@ interface DashboardStats {
       <div class="row mb-4" *ngIf="stats && (stats.overall.lowStockItems > 0 || stats.overall.outOfStockItems > 0)">
         <div class="col-12">
           <div class="alert alert-warning d-flex align-items-center" role="alert">
-            <i class="fas fa-exclamation-triangle me-3"></i>
+            <span class="material-symbols-outlined me-3">warning</span>
             <div>
               <strong>Inventory Alert!</strong>
               <span *ngIf="stats.overall.outOfStockItems > 0">
@@ -127,7 +127,7 @@ interface DashboardStats {
           <div class="card">
             <div class="card-header">
               <h5 class="card-title mb-0">
-                <i class="fas fa-clock me-2"></i>Recent Orders
+                <span class="material-symbols-outlined me-2">schedule</span>Recent Orders
               </h5>
             </div>
             <div class="card-body p-0">
@@ -171,22 +171,22 @@ interface DashboardStats {
           <div class="card">
             <div class="card-header">
               <h5 class="card-title mb-0">
-                <i class="fas fa-bolt me-2"></i>Quick Actions
+                <span class="material-symbols-outlined me-2">flash_on</span>Quick Actions
               </h5>
             </div>
             <div class="card-body">
               <div class="d-grid gap-2">
                 <button class="btn btn-primary">
-                  <i class="fas fa-plus me-2"></i>New Order
+                  <span class="material-symbols-outlined me-2">add_shopping_cart</span>New Order
                 </button>
-                <button class="btn btn-outline-success">
-                  <i class="fas fa-box me-2"></i>Add Product
+                <button class="btn btn-outline-primary">
+                  <span class="material-symbols-outlined me-2">inventory</span>Add Product
                 </button>
-                <button class="btn btn-outline-info">
-                  <i class="fas fa-user-plus me-2"></i>Add Customer
+                <button class="btn btn-outline-primary">
+                  <span class="material-symbols-outlined me-2">person_add</span>Add Customer
                 </button>
-                <button class="btn btn-outline-warning">
-                  <i class="fas fa-chart-bar me-2"></i>View Reports
+                <button class="btn btn-outline-primary">
+                  <span class="material-symbols-outlined me-2">bar_chart</span>View Reports
                 </button>
               </div>
             </div>
@@ -196,7 +196,7 @@ interface DashboardStats {
           <div class="card mt-4">
             <div class="card-header">
               <h5 class="card-title mb-0">
-                <i class="fas fa-star me-2"></i>Top Products
+                <span class="material-symbols-outlined me-2">star</span>Top Products
               </h5>
             </div>
             <div class="card-body">
@@ -222,7 +222,7 @@ interface DashboardStats {
   `,
   styles: [`
     .card-title {
-      color: white;
+      color: #1e293b;
       font-weight: 600;
       font-size: 1rem;
     }

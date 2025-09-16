@@ -17,10 +17,10 @@ import { ApiService, Product } from '../../services/api.service';
         </div>
         <div class="d-flex gap-2">
           <button class="btn btn-outline-primary" (click)="exportProducts()">
-            <i class="fas fa-download me-2"></i>Export
+            <span class="material-symbols-outlined me-2">download</span>Export
           </button>
           <button class="btn btn-primary" (click)="openAddModal()">
-            <i class="fas fa-plus me-2"></i>Add Product
+            <span class="material-symbols-outlined me-2">add</span>Add Product
           </button>
         </div>
       </div>
@@ -33,7 +33,7 @@ import { ApiService, Product } from '../../services/api.service';
               <label class="form-label">Search Products</label>
               <div class="input-group">
                 <span class="input-group-text">
-                  <i class="fas fa-search"></i>
+                  <span class="material-symbols-outlined">search</span>
                 </span>
                 <input type="text" class="form-control" placeholder="Search by name, SKU, or description..."
                        [(ngModel)]="searchQuery" (input)="searchProducts()">
@@ -74,20 +74,20 @@ import { ApiService, Product } from '../../services/api.service';
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="card-title mb-0">
-            <i class="fas fa-box me-2"></i>Products ({{ filteredProducts.length }})
+            <span class="material-symbols-outlined me-2">inventory</span>Products ({{ filteredProducts.length }})
           </h5>
           <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary btn-sm" (click)="refreshProducts()">
-              <i class="fas fa-sync-alt me-1"></i>Refresh
+            <button class="btn btn-outline-primary btn-sm" (click)="refreshProducts()">
+              <span class="material-symbols-outlined me-1">refresh</span>Refresh
             </button>
             <div class="btn-group" role="group">
-              <button class="btn btn-outline-secondary btn-sm" [class.active]="viewMode === 'table'"
+              <button class="btn btn-outline-primary btn-sm" [class.active]="viewMode === 'table'"
                       (click)="setViewMode('table')">
-                <i class="fas fa-table"></i>
+                <span class="material-symbols-outlined">table_rows</span>
               </button>
-              <button class="btn btn-outline-secondary btn-sm" [class.active]="viewMode === 'grid'"
+              <button class="btn btn-outline-primary btn-sm" [class.active]="viewMode === 'grid'"
                       (click)="setViewMode('grid')">
-                <i class="fas fa-th"></i>
+                <span class="material-symbols-outlined">grid_view</span>
               </button>
             </div>
           </div>
@@ -158,13 +158,13 @@ import { ApiService, Product } from '../../services/api.service';
                   <td>
                     <div class="btn-group btn-group-sm">
                       <button class="btn btn-outline-primary" (click)="editProduct(product)">
-                        <i class="fas fa-edit"></i>
+                        <span class="material-symbols-outlined">edit</span>
                       </button>
-                      <button class="btn btn-outline-info" (click)="viewProduct(product)">
-                        <i class="fas fa-eye"></i>
+                      <button class="btn btn-outline-primary" (click)="viewProduct(product)">
+                        <span class="material-symbols-outlined">visibility</span>
                       </button>
                       <button class="btn btn-outline-danger" (click)="deleteProduct(product)">
-                        <i class="fas fa-trash"></i>
+                        <span class="material-symbols-outlined">delete</span>
                       </button>
                     </div>
                   </td>
@@ -210,13 +210,13 @@ import { ApiService, Product } from '../../services/api.service';
                     </span>
                     <div class="btn-group btn-group-sm">
                       <button class="btn btn-outline-primary" (click)="editProduct(product)">
-                        <i class="fas fa-edit"></i>
+                        <span class="material-symbols-outlined">edit</span>
                       </button>
-                      <button class="btn btn-outline-info" (click)="viewProduct(product)">
-                        <i class="fas fa-eye"></i>
+                      <button class="btn btn-outline-primary" (click)="viewProduct(product)">
+                        <span class="material-symbols-outlined">visibility</span>
                       </button>
                       <button class="btn btn-outline-danger" (click)="deleteProduct(product)">
-                        <i class="fas fa-trash"></i>
+                        <span class="material-symbols-outlined">delete</span>
                       </button>
                     </div>
                   </div>
@@ -321,12 +321,12 @@ import { ApiService, Product } from '../../services/api.service';
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+              <button type="button" class="btn btn-outline-primary" (click)="closeModal()">Close</button>
               <button *ngIf="isEditMode" type="button" class="btn btn-primary" (click)="saveProduct()">
-                <i class="fas fa-save me-2"></i>Save Changes
+                <span class="material-symbols-outlined me-2">save</span>Save Changes
               </button>
-              <button *ngIf="!isEditMode && modalTitle !== 'Product Details'" type="button" class="btn btn-success" (click)="saveProduct()">
-                <i class="fas fa-plus me-2"></i>Create Product
+              <button *ngIf="!isEditMode && modalTitle !== 'Product Details'" type="button" class="btn btn-primary" (click)="saveProduct()">
+                <span class="material-symbols-outlined me-2">add</span>Create Product
               </button>
             </div>
           </div>
@@ -340,7 +340,7 @@ import { ApiService, Product } from '../../services/api.service';
     }
 
     .card-title {
-      color: white;
+      color: #1e293b;
       font-weight: 600;
       font-size: 1rem;
     }

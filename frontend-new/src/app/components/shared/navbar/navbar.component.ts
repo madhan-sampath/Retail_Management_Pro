@@ -10,8 +10,8 @@ import { ApiService, User } from '../../../services/api.service';
   template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
       <div class="container-fluid">
-        <!-- Mobile menu button -->
-        <button class="btn btn-outline-light d-lg-none me-3" type="button" (click)="toggleSidebar()">
+        <!-- Sidebar toggle button -->
+        <button class="btn btn-outline-light me-3" type="button" (click)="toggleSidebar()" title="Toggle Sidebar">
           <span class="material-symbols-outlined">menu</span>
         </button>
 
@@ -78,22 +78,35 @@ import { ApiService, User } from '../../../services/api.service';
   `,
   styles: [`
     .navbar {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: #ffffff !important;
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     }
 
     .navbar-brand {
-      font-size: 1.5rem;
-      color: white !important;
+      font-size: 1.25rem;
+      color: #1e293b !important;
+      font-weight: 600;
     }
 
     .nav-link {
-      color: rgba(255, 255, 255, 0.9) !important;
+      color: #64748b !important;
       transition: color 0.3s ease;
     }
 
     .nav-link:hover {
-      color: white !important;
+      color: #1e293b !important;
+    }
+
+    .btn-outline-light {
+      border-color: #e2e8f0;
+      color: #64748b;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #1e293b;
     }
 
     .avatar {
@@ -102,19 +115,20 @@ import { ApiService, User } from '../../../services/api.service';
     }
 
     .dropdown-menu {
-      border: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border-radius: 8px;
       margin-top: 8px;
     }
 
     .dropdown-item {
-      padding: 10px 20px;
+      padding: 8px 16px;
       transition: background-color 0.3s ease;
+      font-size: 0.875rem;
     }
 
     .dropdown-item:hover {
-      background-color: #f8f9fa;
+      background-color: #f8fafc;
     }
 
     .badge {
@@ -153,11 +167,9 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleSidebar() {
-    // This would toggle the sidebar on mobile
-    // Implementation depends on your sidebar component
-    const sidebar = document.querySelector('.sidebar');
+    const sidebar = document.getElementById('sidebar');
     if (sidebar) {
-      sidebar.classList.toggle('show');
+      sidebar.classList.toggle('collapsed');
     }
   }
 

@@ -15,26 +15,26 @@ interface MenuItem {
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="sidebar d-flex flex-column" id="sidebar">
+    <div class="sidebar d-flex align-items-center" id="sidebar">
       <!-- Logo -->
-      <div class="sidebar-header p-4 text-center">
-        <h4 class="text-white mb-0">
-          <span class="material-symbols-outlined me-2">store</span>
+      <div class="sidebar-header d-flex align-items-center me-4">
+        <h5 class="text-white mb-0 me-3">
+          <span class="material-symbols-outlined me-1">store</span>
           Retail Pro
-        </h4>
-        <small class="text-white-50">Management System</small>
+        </h5>
+        <small class="text-white-50" style="font-size: 0.7rem;">Management System</small>
       </div>
 
       <!-- Navigation Menu -->
-      <nav class="sidebar-nav flex-grow-1 px-3">
-        <ul class="nav flex-column">
+      <nav class="sidebar-nav flex-grow-1">
+        <ul class="nav d-flex">
           <li class="nav-item" *ngFor="let item of menuItems">
-            <a class="nav-link d-flex align-items-center" 
+            <a class="nav-link" 
                [routerLink]="item.route" 
                routerLinkActive="active"
                [routerLinkActiveOptions]="{exact: item.route === '/dashboard'}">
-              <span class="material-symbols-outlined me-3">{{ item.icon }}</span>
-              <span class="flex-grow-1">{{ item.title }}</span>
+              <span class="material-symbols-outlined me-1">{{ item.icon }}</span>
+              <span>{{ item.title }}</span>
               <span *ngIf="item.badge" 
                     [class]="'badge ' + (item.badgeClass || 'bg-primary')">
                 {{ item.badge }}
@@ -44,90 +44,147 @@ interface MenuItem {
         </ul>
       </nav>
 
-      <!-- Sidebar Footer -->
-      <div class="sidebar-footer p-3 border-top border-light border-opacity-25">
-        <div class="d-flex align-items-center text-white-50">
-          <span class="material-symbols-outlined text-success me-2" style="font-size: 0.5rem;">circle</span>
-          <small>System Online</small>
+      <!-- Sidebar Actions -->
+      <div class="sidebar-actions d-flex align-items-center">
+        <div class="d-flex align-items-center text-white-50 me-3">
+          <span class="material-symbols-outlined text-success me-1" style="font-size: 0.5rem;">circle</span>
+          <small style="font-size: 0.7rem;">Online</small>
         </div>
-        <small class="text-white-50 d-block mt-1">v1.0.0</small>
+        <button class="btn btn-link text-white p-0" (click)="toggleSidebar()" title="Hide Navigation">
+          <span class="material-symbols-outlined">close</span>
+        </button>
       </div>
     </div>
   `,
   styles: [`
     .sidebar {
-      width: 250px;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      height: 60px;
+      background: linear-gradient(145deg, #1e293b 0%, #334155 50%, #475569 100%);
+      box-shadow: var(--shadow-lg);
       position: fixed;
       left: 0;
       top: 0;
       z-index: 1000;
-      transition: left 0.3s ease;
-    }
-
-    .sidebar-header {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    .sidebar.collapsed {
+      height: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      flex-shrink: 0;
+    }
+
     .sidebar-nav .nav-link {
-      color: rgba(255, 255, 255, 0.8);
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin: 4px 0;
-      transition: all 0.3s ease;
+      color: rgba(255, 255, 255, 0.85);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius);
+      margin: 0 var(--space-1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
       display: flex;
       align-items: center;
+      font-weight: 500;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .sidebar-nav .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: var(--radius);
     }
 
     .sidebar-nav .nav-link:hover {
       color: white;
-      background-color: rgba(255, 255, 255, 0.1);
-      transform: translateX(5px);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sidebar-nav .nav-link:hover::before {
+      opacity: 1;
     }
 
     .sidebar-nav .nav-link.active {
       color: white;
-      background-color: rgba(255, 255, 255, 0.2);
-      font-weight: 600;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
     }
 
-    .sidebar-nav .nav-link i {
-      width: 20px;
+    .sidebar-nav .nav-link.active::before {
+      opacity: 0;
+    }
+
+    .sidebar-nav .nav-link .material-symbols-outlined {
+      margin-right: var(--space-1);
+      width: 18px;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
+      vertical-align: middle;
     }
 
-    .sidebar-footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    .sidebar-actions {
+      flex-shrink: 0;
     }
 
     .badge {
-      font-size: 0.7rem;
-      padding: 4px 8px;
+      font-size: 0.65rem;
+      padding: 3px 6px;
     }
 
     /* Mobile responsiveness */
     @media (max-width: 768px) {
       .sidebar {
-        left: -250px;
+        height: auto;
+        min-height: 60px;
+        flex-wrap: wrap;
       }
       
-      .sidebar.show {
-        left: 0;
+      .sidebar-nav {
+        order: 3;
+        width: 100%;
+        margin-top: var(--space-2);
+      }
+      
+      .sidebar-nav .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .sidebar-nav .nav-link {
+        margin: 2px;
+        font-size: 0.75rem;
+        padding: var(--space-1) var(--space-2);
       }
     }
 
-    /* Main content adjustment */
-    .main-content {
-      margin-left: 250px;
-    }
-
-    @media (max-width: 768px) {
-      .main-content {
-        margin-left: 0;
+    @media (max-width: 576px) {
+      .sidebar-header h5 {
+        font-size: 1rem;
+      }
+      
+      .sidebar-header small {
+        display: none;
+      }
+      
+      .sidebar-actions small {
+        display: none;
       }
     }
   `]
@@ -182,4 +239,12 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     // Add any initialization logic here
   }
+
+  toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+      sidebar.classList.toggle('collapsed');
+    }
+  }
 }
+
